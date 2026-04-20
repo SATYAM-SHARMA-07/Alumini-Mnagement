@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block content %}
+<h4 class="mb-3">Mentorship System</h4>
+
+{% if current_user.role == 'student' %}
+<div class="card mb-4">
+    <div class="card-body">
+        <h5>Request Mentorship</h5>
+        <form method="post">
+            <div class="mb-3">
+                <label class="form-label">Choose Alumni Mentor</label>
+                <select name="alumni_id" class="form-select" required>
+                    <option value="">Select alumni</option>
+                    {% for alumni in alumni_users %}
+                        <option value="{{ alumni.id }}">{{ alumni.name }} ({{ alumni.email }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Message</label>
+                <textarea name="message" class="form-control" rows="3" placeholder="Tell the alumni what guidance you need"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Request</button>
+        </form>
+    </div>
+</div>
+{% endif %}
+
+<div class="card">
+    <div class="card-body">
+        <h5>Mentorship Requests</h5>
+        <div class="table-responsive">
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Alumni</th>
+                        <th>Message</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in requests %}
+                        <tr>
+                            <td>{{ item.student.name }}</td>
+                            <td>{{ item.alumni.name }}</td>
+                            <td>{{ item.message or '-' }}</td>
+                            <td><span class="badge text-bg-secondary text-capitalize">{{ item.status }}</span></td>
+                            <td>
+                                {% if current_user.role == 'alumni' and item.status == 'pending' %}
+                                    <a href="{{ url_for('mentorship.update_request', request_id=item.id, action='accept') }}" class="btn btn-success btn-sm">Accept</a>
+                                    <a href="{{ url_for('mentorship.update_request', request_id=item.id, action='reject') }}" class="btn btn-danger btn-sm">Reject</a>
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center">No requests found.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block content %}
+<h4 class="mb-3">Alumni Directory</h4>
+<form method="get" class="row g-2 mb-4">
+    <div class="col-md-3">
+        <input type="text" name="batch" class="form-control" placeholder="Batch" value="{{ filters.batch }}">
+    </div>
+    <div class="col-md-3">
+        <input type="text" name="company" class="form-control" placeholder="Company" value="{{ filters.company }}">
+    </div>
+    <div class="col-md-3">
+        <input type="text" name="skills" class="form-control" placeholder="Skills" value="{{ filters.skills }}">
+    </div>
+    <div class="col-md-3">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+</form>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Batch</th>
+                <th>Branch</th>
+                <th>Company</th>
+                <th>Job Role</th>
+                <th>Skills</th>
+                <th>LinkedIn</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in profiles %}
+                <tr>
+                    <td>{{ p.user.name }}</td>
+                    <td>{{ p.batch }}</td>
+                    <td>{{ p.branch }}</td>
+                    <td>{{ p.company or '-' }}</td>
+                    <td>{{ p.job_role or '-' }}</td>
+                    <td>{{ p.skills or '-' }}</td>
+                    <td>
+                        {% if p.linkedin %}
+                            <a href="{{ p.linkedin }}" target="_blank">Profile</a>
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7" class="text-center">No alumni found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
