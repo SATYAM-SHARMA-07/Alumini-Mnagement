@@ -1,72 +1,117 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="row g-3 mb-3">
-    <div class="col-md-4">
-        <div class="card stat-card">
-            <div class="card-body">
-                <h6>Your Role</h6>
-                <h4 class="mb-0 text-capitalize">{{ current_user.role }}</h4>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card stat-card">
-            <div class="card-body">
-                <h6>Mentorship Requests</h6>
-                <h4 class="mb-0">{{ mentorship_count }}</h4>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card stat-card">
-            <div class="card-body">
-                <h6>Quick Action</h6>
-                {% if current_user.role == 'admin' %}
-                    <a href="{{ url_for('admin.create_event') }}" class="btn btn-sm btn-primary">Create Event</a>
-                {% elif current_user.role == 'alumni' %}
-                    <a href="{{ url_for('alumni.profile') }}" class="btn btn-sm btn-primary">Update Profile</a>
-                {% else %}
-                    <a href="{{ url_for('mentorship.mentorship_home') }}" class="btn btn-sm btn-primary">Request Mentor</a>
-                {% endif %}
-            </div>
-        </div>
-    </div>
+
+<!-- 🔷 PAGE HEADER -->
+<div class="mb-4">
+    <h3 class="fw-bold">Welcome, {{ current_user.name or "User" }} 👋</h3>
+    <p class="text-muted">Here’s what’s happening in your alumni network.</p>
 </div>
 
+<!-- 🔷 STATS CARDS -->
+<div class="row g-4 mb-4">
+
+    <div class="col-md-4">
+        <div class="card stat-card p-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="text-muted mb-1">Your Role</p>
+                    <h5 class="fw-bold text-capitalize">{{ current_user.role }}</h5>
+                </div>
+                <i class="bi bi-person-badge fs-2 text-primary"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card stat-card p-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="text-muted mb-1">Mentorship Requests</p>
+                    <h5 class="fw-bold">{{ mentorship_count }}</h5>
+                </div>
+                <i class="bi bi-people fs-2 text-success"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card stat-card p-3">
+            <p class="text-muted mb-2">Quick Action</p>
+
+            {% if current_user.role == 'admin' %}
+                <a href="{{ url_for('admin.create_event') }}" class="btn btn-primary w-100">
+                    + Create Event
+                </a>
+            {% elif current_user.role == 'alumni' %}
+                <a href="{{ url_for('alumni.profile') }}" class="btn btn-primary w-100">
+                    Update Profile
+                </a>
+            {% else %}
+                <a href="{{ url_for('mentorship.mentorship_home') }}" class="btn btn-primary w-100">
+                    Request Mentor
+                </a>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+
+<!-- 🔷 MAIN CONTENT -->
 <div class="row g-4">
-    <div class="col-md-6">
-        <h5>Announcements</h5>
-        {% for a in announcements %}
-            <div class="card mb-2">
-                <div class="card-body">
-                    <h6>{{ a.title }}</h6>
-                    <p class="mb-1">{{ a.content }}</p>
-                    <small class="text-muted">{{ a.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
-                </div>
+
+    <!-- ANNOUNCEMENTS -->
+    <div class="col-lg-6">
+        <div class="card p-3">
+            <div class="d-flex justify-content-between mb-2">
+                <h5 class="fw-bold">📢 Announcements</h5>
             </div>
-        {% else %}
-            <p class="text-muted">No announcements yet.</p>
-        {% endfor %}
-    </div>
-    <div class="col-md-6">
-        <h5>Upcoming Events</h5>
-        {% for event in upcoming_events %}
-            <div class="card mb-2">
-                <div class="card-body">
-                    <h6>{{ event.title }}</h6>
-                    <p class="mb-1">{{ event.location }} • {{ event.event_date.strftime('%Y-%m-%d %H:%M') }}</p>
+
+            {% for a in announcements %}
+                <div class="announcement-item p-2 mb-2 rounded">
+                    <h6 class="mb-1">{{ a.title }}</h6>
+                    <p class="mb-1 small text-muted">{{ a.content }}</p>
+                    <small class="text-muted">
+                        {{ a.created_at.strftime('%b %d, %Y • %H:%M') }}
+                    </small>
                 </div>
-            </div>
-        {% else %}
-            <p class="text-muted">No events scheduled.</p>
-        {% endfor %}
+            {% else %}
+                <p class="text-muted">No announcements yet.</p>
+            {% endfor %}
+        </div>
     </div>
+
+    <!-- EVENTS -->
+    <div class="col-lg-6">
+        <div class="card p-3">
+            <div class="d-flex justify-content-between mb-2">
+                <h5 class="fw-bold">📅 Upcoming Events</h5>
+            </div>
+
+            {% for event in upcoming_events %}
+                <div class="event-item p-2 mb-2 rounded">
+                    <h6 class="mb-1">{{ event.title }}</h6>
+                    <p class="mb-1 small text-muted">
+                        {{ event.location }} • {{ event.event_date.strftime('%b %d, %Y') }}
+                    </p>
+                </div>
+            {% else %}
+                <p class="text-muted">No events scheduled.</p>
+            {% endfor %}
+        </div>
+    </div>
+
 </div>
 
+<!-- ADMIN ACTIONS -->
 {% if current_user.role == 'admin' %}
-<div class="mt-4">
-    <a class="btn btn-outline-primary" href="{{ url_for('admin.announcements') }}">Manage Announcements</a>
-    <a class="btn btn-outline-primary" href="{{ url_for('admin.create_event') }}">Create Event</a>
+<div class="mt-4 d-flex gap-2">
+    <a class="btn btn-outline-primary" href="{{ url_for('admin.announcements') }}">
+        Manage Announcements
+    </a>
+    <a class="btn btn-outline-primary" href="{{ url_for('admin.create_event') }}">
+        Create Event
+    </a>
 </div>
 {% endif %}
+
 {% endblock %}

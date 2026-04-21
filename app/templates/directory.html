@@ -1,57 +1,85 @@
 {% extends 'base.html' %}
 {% block content %}
-<h4 class="mb-3">Alumni Directory</h4>
-<form method="get" class="row g-2 mb-4">
-    <div class="col-md-3">
-        <input type="text" name="batch" class="form-control" placeholder="Batch" value="{{ filters.batch }}">
-    </div>
-    <div class="col-md-3">
-        <input type="text" name="company" class="form-control" placeholder="Company" value="{{ filters.company }}">
-    </div>
-    <div class="col-md-3">
-        <input type="text" name="skills" class="form-control" placeholder="Skills" value="{{ filters.skills }}">
-    </div>
-    <div class="col-md-3">
-        <button type="submit" class="btn btn-primary">Search</button>
-    </div>
-</form>
 
-<div class="table-responsive">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Batch</th>
-                <th>Branch</th>
-                <th>Company</th>
-                <th>Job Role</th>
-                <th>Skills</th>
-                <th>LinkedIn</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for p in profiles %}
-                <tr>
-                    <td>{{ p.user.name }}</td>
-                    <td>{{ p.batch }}</td>
-                    <td>{{ p.branch }}</td>
-                    <td>{{ p.company or '-' }}</td>
-                    <td>{{ p.job_role or '-' }}</td>
-                    <td>{{ p.skills or '-' }}</td>
-                    <td>
-                        {% if p.linkedin %}
-                            <a href="{{ p.linkedin }}" target="_blank">Profile</a>
-                        {% else %}
-                            -
-                        {% endif %}
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="7" class="text-center">No alumni found.</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<!-- 🔷 HEADER -->
+<div class="mb-4">
+    <h3 class="fw-bold">Alumni Directory 🎓</h3>
+    <p class="text-muted">Connect with alumni across different domains</p>
 </div>
+
+<!-- 🔷 SEARCH FILTER -->
+<div class="card p-3 mb-4">
+    <form method="get" class="row g-3">
+
+        <div class="col-md-3">
+            <input type="text" name="batch" class="form-control" placeholder="Batch (e.g. 2022)" value="{{ filters.batch }}">
+        </div>
+
+        <div class="col-md-3">
+            <input type="text" name="company" class="form-control" placeholder="Company (e.g. Google)" value="{{ filters.company }}">
+        </div>
+
+        <div class="col-md-3">
+            <input type="text" name="skills" class="form-control" placeholder="Skills (e.g. Python)" value="{{ filters.skills }}">
+        </div>
+
+        <div class="col-md-3 d-grid">
+            <button type="submit" class="btn btn-primary">
+                🔍 Search
+            </button>
+        </div>
+
+    </form>
+</div>
+
+<!-- 🔷 ALUMNI CARDS -->
+<div class="row g-4">
+
+    {% for p in profiles %}
+    <div class="col-md-6 col-lg-4">
+        <div class="card alumni-card p-3 h-100">
+
+            <!-- Top -->
+            <div class="d-flex align-items-center mb-3">
+                <div class="avatar me-3">
+                    {{ p.user.name[0] | upper }}
+                </div>
+                <div>
+                    <h6 class="mb-0 fw-bold">{{ p.user.name }}</h6>
+                    <small class="text-muted">{{ p.branch }} • {{ p.batch }}</small>
+                </div>
+            </div>
+
+            <!-- Info -->
+            <p class="mb-1"><strong>💼</strong> {{ p.job_role or "Not specified" }}</p>
+            <p class="mb-1"><strong>🏢</strong> {{ p.company or "Not specified" }}</p>
+
+            <p class="mb-2">
+                <strong>🛠 Skills:</strong><br>
+                <span class="skills-text">
+                    {{ p.skills or "Not mentioned" }}
+                </span>
+            </p>
+
+            <!-- Actions -->
+            <div class="mt-auto d-flex justify-content-between align-items-center">
+                
+                {% if p.linkedin %}
+                <a href="{{ p.linkedin }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                    <i class="bi bi-linkedin"></i> View
+                </a>
+                {% else %}
+                <span class="text-muted small">No LinkedIn</span>
+                {% endif %}
+
+            </div>
+
+        </div>
+    </div>
+    {% else %}
+        <p class="text-center text-muted">No alumni found.</p>
+    {% endfor %}
+
+</div>
+
 {% endblock %}

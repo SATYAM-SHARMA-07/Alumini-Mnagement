@@ -1,8 +1,234 @@
 body {
-    background-color: #f8f9fa;
+    background-color: #f5f7fb;
+    font-family: 'Segoe UI', sans-serif;
 }
 
-.stat-card {
+/* Navbar */
+.custom-navbar {
+    background: linear-gradient(90deg, #4f46e5, #3b82f6);
+}
+
+/* Sidebar */
+.sidebar {
+    width: 240px;
+    min-height: 100vh;
+    background: #1e293b;
+    color: white;
+}
+
+.sidebar-link {
+    display: block;
+    padding: 12px;
+    color: #cbd5f5;
+    text-decoration: none;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    transition: 0.2s;
+}
+
+.sidebar-link:hover {
+    background: #334155;
+    color: white;
+}
+
+/* Main Content */
+.main-content {
+    background: #f8fafc;
+}
+
+/* Cards */
+.card {
     border: none;
-    box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.08);
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* Buttons */
+.btn-primary {
+    background: #4f46e5;
+    border: none;
+}
+
+.btn-primary:hover {
+    background: #4338ca;
+}
+
+/* Stat cards */
+.stat-card {
+    border-left: 5px solid #4f46e5;
+}
+
+/* Announcement */
+.announcement-item {
+    background: #f1f5f9;
+}
+
+/* Events */
+.event-item {
+    background: #f8fafc;
+}
+
+/* Headings */
+h5 {
+    font-weight: 600;
+}
+
+/* Auth Page */
+.auth-container {
+    height: 85vh;
+}
+
+/* Card */
+.auth-card {
+    width: 100%;
+    max-width: 400px;
+    padding: 30px;
+    border-radius: 16px;
+    background: white;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+}
+
+/* Input group */
+.input-group-text {
+    background: #eef2ff;
+    border: none;
+}
+
+/* Inputs */
+.form-control {
+    border: none;
+    background: #f8fafc;
+}
+
+/* Focus */
+.form-control:focus {
+    box-shadow: none;
+    background: #eef2ff;
+}
+
+/* Make register button match theme */
+.btn-success {
+    background: #10b981;
+    border: none;
+}
+
+.btn-success:hover {
+    background: #059669;
+}
+
+/* Alumni cards */
+.alumni-card {
+    border-radius: 16px;
+    transition: 0.3s;
+}
+
+.alumni-card:hover {
+    transform: translateY(-6px);
+}
+
+/* Avatar circle */
+.avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #4f46e5;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+/* Skills */
+.skills-text {
+    font-size: 0.9rem;
+    color: #475569;
+}
+
+/* Profile avatar */
+.profile-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #4f46e5;
+    color: white;
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+/* Event cards */
+.event-card {
+    border-radius: 16px;
+    transition: 0.3s;
+}
+
+.event-card:hover {
+    transform: translateY(-6px);
+}
+
+/* Improve button feel */
+.btn-outline-primary {
+    border-radius: 10px;
+}
+
+/* Form spacing consistency */
+.form-label {
+    font-weight: 500;
+}
+
+/* Textarea resize control */
+textarea {
+    resize: none;
+}
+
+/* Request cards */
+.request-card {
+    background: #f8fafc;
+    border-radius: 12px;
+    transition: 0.2s;
+}
+
+.request-card:hover {
+    background: #eef2ff;
+}
+
+/* Status badges */
+.status-badge {
+    text-transform: capitalize;
+    font-size: 0.75rem;
+}
+
+/* Status colors */
+.status-pending {
+    background: #facc15;
+    color: black;
+}
+
+.status-accepted {
+    background: #22c55e;
+    color: white;
+}
+
+.status-rejected {
+    background: #ef4444;
+    color: white;
+}
+
+/* Announcement cards */
+.announcement-card {
+    background: #f8fafc;
+    border-left: 4px solid #4f46e5;
+    border-radius: 10px;
+    transition: 0.2s;
+}
+
+.announcement-card:hover {
+    background: #eef2ff;
 }
