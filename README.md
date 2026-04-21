@@ -163,18 +163,11 @@ flask run
 * Session management using Flask-Login
 
 ---
+## 📸 Dashboard
 
-## 📸 Screenshots
-
-### Dashboard
-![Dashboard](screenshots/dashboard.png)
-
-### Mentorship System
-![Mentorship](screenshots/mentorship.png)
-
-### Events Page
-![Events](screenshots/events.png)
-
+<p align="center">
+  <img src="screenshots/dashboard.png.png" width="900">
+</p>
 ---
 
 ## 🚀 Future Enhancements
