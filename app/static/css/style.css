@@ -263,3 +263,137 @@ textarea {
     border-radius: 16px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
+
+/* Request Card */
+.request-card {
+    background: #f8f9ff;
+    border: 1px solid #e6e9ff;
+    border-radius: 14px;
+    transition: 0.2s;
+}
+
+.request-card:hover {
+    background: #eef1ff;
+    transform: translateY(-2px);
+}
+
+/* Avatar */
+.avatar-circle {
+    width: 42px;
+    height: 42px;
+    background: linear-gradient(135deg, #6c63ff, #4e54c8);
+    color: white;
+    font-weight: bold;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Status badge */
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    text-transform: capitalize;
+}
+
+/* Status colors */
+.status-accepted {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.status-pending {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.status-rejected {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* 🔷 Request Card */
+.request-card {
+    background: #f8f9ff;
+    border: 1px solid #e6e9ff;
+    border-radius: 14px;
+    padding: 12px;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+
+.request-card:hover {
+    background: #eef1ff;
+    transform: translateY(-2px);
+}
+
+/* 🔷 Avatar Circle */
+.avatar-circle {
+    width: 42px;
+    height: 42px;
+    background: linear-gradient(135deg, #6c63ff, #4e54c8);
+    color: white;
+    font-weight: bold;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 🔷 Status Badge */
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    text-transform: capitalize;
+    display: inline-block;
+}
+
+/* Status Colors */
+.status-accepted {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.status-pending {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.status-rejected {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* 🔥 Highlight Accepted Requests */
+.request-card:has(.status-accepted) {
+    border-left: 4px solid #22c55e;
+    background: #f6fff9;
+}
+
+/* 🔷 Contact Buttons */
+.request-card .btn-outline-primary,
+.request-card .btn-outline-info {
+    border-radius: 8px;
+    padding: 4px 10px;
+    font-size: 13px;
+    transition: 0.2s;
+}
+
+/* Hover Effects */
+.request-card .btn-outline-primary:hover {
+    background-color: #4f46e5;
+    color: white;
+}
+
+.request-card .btn-outline-info:hover {
+    background-color: #0ea5e9;
+    color: white;
+}
+
+/* 🔷 Small Text Fix */
+.request-card small {
+    font-size: 12px;
+}

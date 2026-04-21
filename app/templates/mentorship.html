@@ -9,10 +9,10 @@
 
 <div class="row g-4">
 
-    <!-- 🔷 LEFT: REQUEST FORM (STUDENT ONLY) -->
+    <!-- 🔷 LEFT: REQUEST FORM -->
     {% if current_user.role == 'student' %}
     <div class="col-lg-4">
-        <div class="card p-4 h-100">
+        <div class="card p-4 h-100 shadow-sm">
 
             <h5 class="fw-bold mb-3">Request Mentorship</h5>
 
@@ -46,53 +46,95 @@
     </div>
     {% endif %}
 
-    <!-- 🔷 RIGHT: REQUESTS LIST -->
+    <!-- 🔷 RIGHT: REQUESTS -->
     <div class="{% if current_user.role == 'student' %}col-lg-8{% else %}col-12{% endif %}">
 
-        <div class="card p-4">
+        <div class="card p-4 shadow-sm">
 
             <h5 class="fw-bold mb-3">Mentorship Requests</h5>
 
             {% for item in requests %}
-            <div class="request-card p-3 mb-3">
+            <div class="request-card p-3 mb-3 d-flex justify-content-between align-items-start">
 
-                <div class="d-flex justify-content-between align-items-start">
+                <!-- LEFT SIDE -->
+                <div class="d-flex gap-3">
+
+                    <!-- Avatar -->
+                    <div class="avatar-circle">
+                        {{ item.student.name[0] }}
+                    </div>
 
                     <!-- Info -->
                     <div>
-                        <h6 class="mb-1">
-                            👤 {{ item.student.name }} → 🎓 {{ item.alumni.name }}
+                        <h6 class="mb-1 fw-semibold">
+                            {{ item.student.name }}
+                            <span class="text-muted">→</span>
+                            {{ item.alumni.name }}
                         </h6>
 
-                        <p class="mb-1 small text-muted">
+                        <p class="mb-2 small text-muted">
                             {{ item.message or "No message provided" }}
                         </p>
 
-                        <span class="badge status-badge status-{{ item.status }}">
+                        <span class="status-badge status-{{ item.status }}">
                             {{ item.status }}
                         </span>
-                    </div>
 
-                    <!-- Actions -->
-                    {% if current_user.role == 'alumni' and item.status == 'pending' %}
-                    <div class="d-flex gap-2">
-                        <a href="{{ url_for('mentorship.update_request', request_id=item.id, action='accept') }}"
-                           class="btn btn-success btn-sm">
-                            Accept
-                        </a>
+                        <!-- 🔥 CONTACT MENTOR SECTION -->
+                        {% if item.status == 'accepted' %}
+                        <div class="mt-2">
 
-                        <a href="{{ url_for('mentorship.update_request', request_id=item.id, action='reject') }}"
-                           class="btn btn-danger btn-sm">
-                            Reject
-                        </a>
+                            <small class="text-muted d-block mb-1">
+                                You can now connect with your mentor
+                            </small>
+
+                            <div class="d-flex gap-2">
+
+                                <!-- Email -->
+                                <a href="mailto:{{ item.alumni.email }}"
+                                   class="btn btn-outline-primary btn-sm">
+                                    📧 Email
+                                </a>
+
+                                <!-- LinkedIn (if exists safely) -->
+                                {% if item.alumni.profile and item.alumni.profile.linkedin %}
+                                <a href="{{ item.alumni.profile.linkedin }}"
+                                   target="_blank"
+                                   class="btn btn-outline-info btn-sm">
+                                    🔗 LinkedIn
+                                </a>
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+                        {% endif %}
+
                     </div>
-                    {% endif %}
 
                 </div>
 
+                <!-- ACTION BUTTONS -->
+                {% if current_user.role == 'alumni' and item.status == 'pending' %}
+                <div class="d-flex gap-2">
+                    <a href="{{ url_for('mentorship.update_request', request_id=item.id, action='accept') }}"
+                       class="btn btn-success btn-sm">
+                        Accept
+                    </a>
+
+                    <a href="{{ url_for('mentorship.update_request', request_id=item.id, action='reject') }}"
+                       class="btn btn-danger btn-sm">
+                        Reject
+                    </a>
+                </div>
+                {% endif %}
+
             </div>
+
             {% else %}
-                <p class="text-muted text-center">No requests found.</p>
+                <div class="text-center py-4">
+                    <p class="text-muted">No mentorship requests yet 📭</p>
+                </div>
             {% endfor %}
 
         </div>
