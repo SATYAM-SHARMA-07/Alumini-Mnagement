@@ -12,15 +12,32 @@ events_bp = Blueprint("events", __name__, url_prefix="/events")
 @events_bp.route("/")
 @login_required
 def list_events():
-    """Show all upcoming events and registration status."""
+    """Show all events with registration status + attendee count."""
+
     events = Event.query.order_by(Event.event_date.asc()).all()
+
+    # 🔷 Get events user registered for
     registered_event_ids = {
         reg.event_id
         for reg in EventRegistration.query.filter_by(user_id=current_user.id).all()
     }
+
+    # 🔥 NEW: attendee count per event
+    event_data = []
+
+    for event in events:
+        attendee_count = EventRegistration.query.filter_by(
+            event_id=event.id
+        ).count()
+
+        event_data.append({
+            "event": event,
+            "attendee_count": attendee_count
+        })
+
     return render_template(
         "events.html",
-        events=events,
+        event_data=event_data,
         registered_event_ids=registered_event_ids,
     )
 
@@ -29,6 +46,7 @@ def list_events():
 @login_required
 def register_event(event_id):
     """Register current user for an event if not already registered."""
+
     event = Event.query.get_or_404(event_id)
 
     existing = EventRegistration.query.filter_by(
@@ -40,7 +58,11 @@ def register_event(event_id):
         flash("You are already registered for this event.", "info")
         return redirect(url_for("events.list_events"))
 
-    registration = EventRegistration(user_id=current_user.id, event_id=event.id)
+    registration = EventRegistration(
+        user_id=current_user.id,
+        event_id=event.id
+    )
+
     db.session.add(registration)
     db.session.commit()
 

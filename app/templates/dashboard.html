@@ -10,8 +10,8 @@
 <!-- 🔷 STATS CARDS -->
 <div class="row g-4 mb-4">
 
-    <div class="col-md-4">
-        <div class="card stat-card p-3">
+    <div class="col-md-3">
+        <div class="card stat-card p-3 h-100">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
                     <p class="text-muted mb-1">Your Role</p>
@@ -22,8 +22,8 @@
         </div>
     </div>
 
-    <div class="col-md-4">
-        <div class="card stat-card p-3">
+    <div class="col-md-3">
+        <div class="card stat-card p-3 h-100">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
                     <p class="text-muted mb-1">Mentorship Requests</p>
@@ -34,69 +34,99 @@
         </div>
     </div>
 
-    <div class="col-md-4">
-        <div class="card stat-card p-3">
-            <p class="text-muted mb-2">Quick Action</p>
+    <div class="col-md-3">
+        <div class="card stat-card p-3 h-100">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="text-muted mb-1">Total Alumni</p>
+                    <h5 class="fw-bold">{{ total_alumni }}</h5>
+                </div>
+                <i class="bi bi-mortarboard fs-2 text-info"></i>
+            </div>
+        </div>
+    </div>
 
-            {% if current_user.role == 'admin' %}
-                <a href="{{ url_for('admin.create_event') }}" class="btn btn-primary w-100">
-                    + Create Event
-                </a>
-            {% elif current_user.role == 'alumni' %}
-                <a href="{{ url_for('alumni.profile') }}" class="btn btn-primary w-100">
-                    Update Profile
-                </a>
-            {% else %}
-                <a href="{{ url_for('mentorship.mentorship_home') }}" class="btn btn-primary w-100">
-                    Request Mentor
-                </a>
-            {% endif %}
+    <div class="col-md-3">
+        <div class="card stat-card p-3 h-100">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="text-muted mb-1">Total Events</p>
+                    <h5 class="fw-bold">{{ total_events }}</h5>
+                </div>
+                <i class="bi bi-calendar-event fs-2 text-warning"></i>
+            </div>
         </div>
     </div>
 
 </div>
 
-<!-- 🔷 MAIN CONTENT -->
+<!-- 🔷 QUICK ACTION -->
+<div class="mb-4">
+    <div class="card stat-card p-3">
+        <p class="text-muted mb-2">Quick Action</p>
+
+        {% if current_user.role == 'admin' %}
+            <a href="{{ url_for('admin.create_event') }}" class="btn btn-primary w-100">+ Create Event</a>
+        {% elif current_user.role == 'alumni' %}
+            <a href="{{ url_for('alumni.profile') }}" class="btn btn-primary w-100">Update Profile</a>
+        {% else %}
+            <a href="{{ url_for('mentorship.mentorship_home') }}" class="btn btn-primary w-100">Request Mentor</a>
+        {% endif %}
+    </div>
+</div>
+
+<!-- 🔥 MAIN CONTENT (FIXED SIDE BY SIDE) -->
 <div class="row g-4">
 
     <!-- ANNOUNCEMENTS -->
-    <div class="col-lg-6">
-        <div class="card p-3">
-            <div class="d-flex justify-content-between mb-2">
-                <h5 class="fw-bold">📢 Announcements</h5>
+    <div class="col-md-6">
+        <div class="card dashboard-card p-3 h-100 d-flex flex-column">
+
+            <div class="d-flex align-items-center mb-3">
+                <span class="fs-5 me-2">📢</span>
+                <h5 class="fw-bold mb-0">Announcements</h5>
             </div>
 
-            {% for a in announcements %}
-                <div class="announcement-item p-2 mb-2 rounded">
-                    <h6 class="mb-1">{{ a.title }}</h6>
-                    <p class="mb-1 small text-muted">{{ a.content }}</p>
-                    <small class="text-muted">
-                        {{ a.created_at.strftime('%b %d, %Y • %H:%M') }}
-                    </small>
-                </div>
-            {% else %}
-                <p class="text-muted">No announcements yet.</p>
-            {% endfor %}
+            <div class="flex-grow-1">
+
+                {% for a in announcements %}
+                    <div class="announcement-box p-3 mb-2">
+                        <h6 class="fw-semibold">{{ a.title }}</h6>
+                        <p class="small text-muted">{{ a.content }}</p>
+                    </div>
+                {% else %}
+                    <div class="announcement-box text-center p-3">
+                        <p class="text-muted mb-1">No announcements yet</p>
+                        <small class="text-muted">Stay tuned 📬</small>
+                    </div>
+                {% endfor %}
+
+            </div>
+
         </div>
     </div>
 
     <!-- EVENTS -->
-    <div class="col-lg-6">
-        <div class="card p-3">
-            <div class="d-flex justify-content-between mb-2">
-                <h5 class="fw-bold">📅 Upcoming Events</h5>
+    <div class="col-md-6">
+        <div class="card dashboard-card p-3 h-100">
+
+            <div class="d-flex align-items-center mb-3">
+                <span class="fs-5 me-2">📅</span>
+                <h5 class="fw-bold mb-0">Upcoming Events</h5>
             </div>
 
             {% for event in upcoming_events %}
-                <div class="event-item p-2 mb-2 rounded">
-                    <h6 class="mb-1">{{ event.title }}</h6>
-                    <p class="mb-1 small text-muted">
-                        {{ event.location }} • {{ event.event_date.strftime('%b %d, %Y') }}
-                    </p>
+                <div class="event-box p-3 mb-2">
+                    <h6 class="fw-semibold">{{ event.title }}</h6>
+                    <p class="small text-muted mb-1">📍 {{ event.location }}</p>
+                    <p class="small text-muted">🕒 {{ event.event_date.strftime('%b %d, %Y') }}</p>
                 </div>
             {% else %}
-                <p class="text-muted">No events scheduled.</p>
+                <div class="event-box text-center p-3">
+                    <p class="text-muted">No events scheduled 📭</p>
+                </div>
             {% endfor %}
+
         </div>
     </div>
 
@@ -105,12 +135,8 @@
 <!-- ADMIN ACTIONS -->
 {% if current_user.role == 'admin' %}
 <div class="mt-4 d-flex gap-2">
-    <a class="btn btn-outline-primary" href="{{ url_for('admin.announcements') }}">
-        Manage Announcements
-    </a>
-    <a class="btn btn-outline-primary" href="{{ url_for('admin.create_event') }}">
-        Create Event
-    </a>
+    <a class="btn btn-outline-primary" href="{{ url_for('admin.announcements') }}">Manage Announcements</a>
+    <a class="btn btn-outline-primary" href="{{ url_for('admin.create_event') }}">Create Event</a>
 </div>
 {% endif %}
 

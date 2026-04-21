@@ -232,3 +232,34 @@ textarea {
 .announcement-card:hover {
     background: #eef2ff;
 }
+
+/* Dashboard cards */
+.dashboard-card {
+    border-radius: 16px;
+}
+
+/* 🔷 Common box style (Announcements + Events) */
+.announcement-box,
+.event-box {
+    background: #eef2ff;              /* 🔥 better contrast */
+    border: 1px solid #e0e5ff;        /* subtle separation */
+    border-radius: 12px;
+    padding: 12px;
+    transition: all 0.2s ease;
+}
+
+/* 🔷 Hover effect */
+.announcement-box:hover,
+.event-box:hover {
+    background: #e4e9ff;
+    transform: translateY(-2px);      /* small lift effect */
+}
+
+/* 🔷 Dashboard card layout */
+.dashboard-card {
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}

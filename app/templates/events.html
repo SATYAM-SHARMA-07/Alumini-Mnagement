@@ -18,7 +18,10 @@
 <!-- 🔷 EVENTS GRID -->
 <div class="row g-4">
 
-    {% for event in events %}
+    {% for item in event_data %}
+    {% set event = item.event %}
+    {% set count = item.attendee_count %}
+
     <div class="col-md-6 col-lg-4">
         <div class="card event-card p-3 h-100 d-flex flex-column">
 
@@ -31,14 +34,20 @@
             </p>
 
             <!-- Location -->
-            <p class="text-muted small mb-2">
+            <p class="text-muted small mb-1">
                 📍 {{ event.location }}
+            </p>
+
+            <!-- 🔥 NEW: ATTENDEE COUNT -->
+            <p class="small mb-2">
+                👥 <strong>{{ count }}</strong> attending
             </p>
 
             <!-- Description -->
             {% if event.description %}
             <p class="small text-muted flex-grow-1">
-                {{ event.description[:120] }}{% if event.description|length > 120 %}...{% endif %}
+                {{ event.description[:120] }}
+                {% if event.description|length > 120 %}...{% endif %}
             </p>
             {% endif %}
 
@@ -58,6 +67,7 @@
 
         </div>
     </div>
+
     {% else %}
     <div class="col-12 text-center">
         <p class="text-muted">No events available right now.</p>
